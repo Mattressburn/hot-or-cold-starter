@@ -23,16 +23,49 @@ $(document).ready(function(){
   		return (randomNumber)
   	}
 
+    var winningNumber = generateRandom();
+    
+    //validate entry 
+    function validateEntry(userInput) {
+        if (userInput < 1 || userInput > 100) {
+            changeFeedback('Not a Valid Number!')
+            return false;
+        }
+        else if (isNan(userInput)) {
+            return false;
+        }
+        else {
+            return true
+        }
+    }
+    
 
-  	function userSubmit() {
   		//take user input
   		//run it through validation
   		//give feedback
   		//increase the count
   		//store guess
+        
+        //listener for pressing button
+        $('form').submit(function(event){
+            var userInput = parseInt($('#userGuess').val())
+            console.log("click worked")
+            event.preventDefault();
+            $("#userGuess").val("");
+            var valid = validateEntry(userInput);
+            if (valid) {
+                changeCount();
+                $('#guessList').append('<li>' + userInput + '</li>')
+            } 
+            else {
+                changeFeedback("Please enter a number.");
+            }
+        }) 
+        
+                         
+                         
 
 
-  	}
 
   	function compare(userInput, winningNumber) {
 	//take user submit and compare to random number var
@@ -48,12 +81,16 @@ $(document).ready(function(){
   	}
 
   	function changeCount() {
-  		var count = $("#count").text()
-  		count += count + 1
+  		var count = parseInt($("#count").text())
+  		count += 1
   		$("#count").text(count)
   	}
 
- 	changeCount()
+//    function storeGuess() {
+//        
+//    }
+
+    
 
   	// var winningNumber = generateRandom()
   	// generateRandom();
